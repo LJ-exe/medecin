@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyDoc - Nos Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        /* --- VARIABLES --- */
+        :root {
+            --primary-blue: #0b4c86;
+            --light-blue: #13b5ea;
+            --danger-color: #ff4757;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --bg-color: #f9fcff;
+            --white: #ffffff;
+            --grad: linear-gradient(135deg, #13b5ea 0%, #0b4c86 100%);
+            --shadow-3d: 0 20px 40px rgba(11, 76, 134, 0.08), 0 5px 15px rgba(0,0,0,0.03);
+            --shadow-btn: 0 8px 20px rgba(19, 181, 234, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body, html { overflow-x: hidden; background-color: var(--white); color: var(--text-dark); }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(var(--light-blue) 0.5px, transparent 0.5px);
+            background-size: 40px 40px;
+            opacity: 0.04;
+            z-index: -1;
+        }
+
+        a { text-decoration: none; }
+
+        /* --- TOP BAR --- */
+        .top-bar {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 5%;
+            font-size: 0.85rem;
+        }
+        .top-bar-left span, .top-bar-right span {
+            margin-right: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+       /* --- NAVIGATION --- */
+        .navbar {
+            display: flex;
+            align-items: center;
+            padding: 25px 5%; /* <-- J'ai passé le 15px à 10px */
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out; 
+        }
+
+        /* Nouvelle classe qui sera activée par le Javascript */
+        .navbar-hidden {
+            transform: translateY(-100%); /* Remonte le menu hors de l'écran */
+        }
+
+        .logo img {
+            height: 60px; /* <-- C'est ici le grand changement ! (avant c'était 200px) */
+            width: auto; /* Garde les bonnes proportions */
+        }
+
+        .nav-links {
+            margin-left: auto; /* C'est cette ligne qui pousse le reste vers la droite ! */
+            margin-right: 30px; /* Espace entre les liens et le bouton RDV */
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--light-blue);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            color: var(--primary-blue);
+        }
+
+        .profile-icon {
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Menu Toggle caché par défaut sur PC */
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary-blue);
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+        /* --- BOUTONS --- */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--light-blue);
+            color: var(--white);
+            border: none;
+            box-shadow: var(--shadow-btn);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-danger {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: 2px solid rgba(255, 71, 87, 0.2);
+        }
+
+        .btn-outline-danger:hover {
+            border-color: var(--danger-color);
+            background-color: rgba(255, 71, 87, 0.05);
+        }
+   @media (max-width: 768px) {
+    /* --- REORGANISATION DU HEADER MOBILE --- */
+    .navbar {
+        display: flex;
+        justify-content: space-between; /* Espace entre les 3 blocs */
+        align-items: center;
+        padding: 10px 4%;
+    }
+
+    /* 1. Bloc Gauche : Le Menu Hamburger */
+    .menu-toggle {
+        display: block;
+        order: 1; /* Force la position à gauche */
+        width: 33%;
+        text-align: left;
+    }
+
+    /* 2. Bloc Centre : Le Logo */
+    .logo {
+        order: 2; /* Force la position au centre */
+        width: 33%;
+        display: flex;
+        justify-content: center;
+    }
+    .logo img {
+        height: 60px; /* On réduit un peu pour mobile */
+    }
+
+    /* 3. Bloc Droite : Le Bouton RDV */
+    .nav-actions {
+        order: 3; /* Force la position à droite */
+        width: 33%;
+        justify-content: flex-end;
+    }
+
+    /* Adaptation du bouton pour qu'il tienne sur mobile */
+    .nav-actions .btn-primary {
+        display: inline-flex; /* On le réactive */
+        padding: 8px 12px;
+        font-size: 0.75rem;
+        white-space: nowrap; /* Empêche le texte de revenir à la ligne */
+    }
+
+    /* Cacher les éléments secondaires sur mobile pour gagner de la place */
+    .icon-btn { display: none; } 
+    .top-bar { display: none; }
+
+    /* --- MENU PLEIN ÉCRAN (Navigation) --- */
+    /* --- MENU PANNEAU LATÉRAL (Navigation) --- */
+.nav-links {
+    position: fixed;
+    top: 0;
+    left: -280px;        /* Largeur fixe au lieu de 100% */
+    width: 280px;        /* Panneau de 280px seulement */
+    height: 100vh;
+    background-color: var(--white);
+    flex-direction: column;
+    justify-content: flex-start;   /* Aligner en haut */
+    align-items: flex-start;       /* Aligner à gauche */
+    padding: 100px 30px 40px;      /* Espace en haut pour le header */
+    transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+    gap: 8px;
+    box-shadow: 5px 0 30px rgba(0,0,0,0.12);
+    border-right: 1px solid #f0f0f0;
+}
+
+.nav-links.active {
+    left: 0;
+}
+
+.nav-links a {
+    font-size: 1rem;
+    font-weight: 500;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    color: var(--text-dark);
+    transition: all 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background-color: rgba(19, 181, 234, 0.08);
+    color: var(--light-blue);
+    padding-left: 22px;
+}}
+        /* =============================================
+           PAGE HERO — REMPLACÉ
+        ============================================= */
+        .page-hero {
+            position: relative;
+            /* Remplacer cette URL par l'image de la clinique/don de sang que vous possédez */
+            background-image: url('https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=1920&q=80'); 
+            background-size: cover;
+            background-position: center right;
+            padding: 140px 5% 140px;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+        }
+        /* Overlay dégradé bleu similaire à l'image */
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, #2476c5 0%, rgba(135, 169, 194, 0.8) 40%, rgba(255,255,255,0) 80%);
+            z-index: 1;
+        }
+        .page-hero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 650px;
+        }
+        .hero-tag {
+            display: inline-block;
+            
+            color: #333;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            padding: 6px 12px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+        .page-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .page-hero h1 .highlight {
+           
+            padding: 4px 15px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        .page-hero p {
+            color: #333;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .hero-btn {
+            padding: 16px 28px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-red {
+            background-color: #f2493d;
+            color: #fff;
+            border: 2px solid #f2493d;
+        }
+        .btn-red:hover {
+            background-color: #d6372d;
+            border-color: #d6372d;
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+        .btn-outline:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        /* =============================================
+           STATS BAR
+        ============================================= */
+        .stats-bar {
+            background: var(--white);
+            border-bottom: 1px solid #f0f4f8;
+            padding: 0 5%;
+        }
+        .stats-bar-inner {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 28px 24px;
+            border-right: 1px solid #f0f4f8;
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-icon {
+            width: 50px; height: 50px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(19,181,234,0.12), rgba(11,76,134,0.08));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+            color: var(--light-blue);
+            flex-shrink: 0;
+        }
+        .stat-info strong {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .stat-info span { font-size: 0.82rem; color: var(--text-light); }
+
+        /* =============================================
+           SECTION TITLE
+        ============================================= */
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(19,181,234,0.1);
+            color: var(--light-blue);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        .section-header h2 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            line-height: 1.2;
+            margin-bottom: 16px;
+            letter-spacing: -0.3px;
+        }
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+/* =============================================
+           SERVICES SECTION — DESIGN COLLÉ EN LISTE
+        ============================================= */
+        .services-section {
+            padding: 100px 5%;
+            position: relative;
+            /* Dégradé élégant : blanc pur vers un bleu très léger */
+            background: linear-gradient(180deg, #f6f5f5 0%, #f0f7fd 100%);
+            overflow: hidden; /* Empêche la décoration de déborder */
+        }
+
+        /* Ajout d'une lueur décorative douce en haut à droite */
+        .services-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(19, 181, 234, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none; /* Empêche de bloquer les clics de la souris */
+        }
+
+        /* Ajout d'une deuxième lueur décorative en bas à gauche */
+        .services-section::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(11, 76, 134, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .services-header-alt {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 50px;
+        }
+
+        .services-header-alt h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #033256;
+            line-height: 1.15;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        .services-header-alt .view-more {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--light-blue);
+            text-decoration: none;
+            transition: color 0.3s;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .services-header-alt .view-more:hover {
+            color: var(--primary-blue);
+        }
+
+        .services-list-alt {
+            display: flex;
+            flex-direction: column;
+            gap: 0; /* Supprime l'espace entre les boîtes */
+        }
+
+       /* --- LE CADRE (Lignes empilées) --- */
+        .service-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+            padding: 40px 0; /* Aucun espace vide sur les côtés */
+            background: transparent;
+            border-bottom: 1px solid #eef3f8; /* La ligne de séparation */
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .service-row:last-child {
+            border-bottom: none; /* Pas de ligne sous le dernier élément */
+        }
+
+        /* =============================================
+           EFFETS DE SURVOL (HOVER)
+        ============================================= */
+        
+        /* 1. Le fond de la ligne s'illumine subtilement */
+        .service-row:hover {
+            background: linear-gradient(to right, rgba(19, 181, 234, 0.03) 0%, transparent 60%);
+            border-bottom-color: rgba(19, 181, 234, 0.3);
+        }
+
+        .service-content-alt {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* 2. L'icône se soulève et change de couleur */
+        .service-icon-alt {
+            font-size: 2.2rem;
+            color: #033256;
+            margin-bottom: 15px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+        }
+        .service-row:hover .service-icon-alt {
+            transform: translateY(-6px) scale(1.05);
+            color: var(--light-blue);
+        }
+
+        /* 3. Le titre s'illumine */
+        .service-content-alt h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #033256;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            transition: color 0.3s ease;
+        }
+        .service-row:hover .service-content-alt h3 {
+            color: var(--light-blue);
+        }
+
+        .service-content-alt p {
+            font-size: 1.05rem;
+            color: #5c6b7a;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* 4. Le bouton s'active automatiquement au survol de la ligne */
+        .btn-service {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(19, 181, 234, 0.1);
+            color: var(--light-blue);
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        .service-row:hover .btn-service {
+            background: var(--light-blue);
+            color: var(--white);
+            gap: 14px; /* La flèche avance */
+        }
+
+        /* 5. L'image zoome doucement sans déborder */
+        .service-img-alt {
+            flex: 1;
+            border-radius: 16px;
+            overflow: hidden; /* Obligatoire pour couper l'image qui zoome */
+        }
+        
+        .service-img-alt img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .service-row:hover .service-img-alt img {
+            transform: scale(1.08); /* Effet de zoom fluide */
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .service-img-alt img { height: 240px; }
+            .service-content-alt h3 { font-size: 1.6rem; }
+            .service-row { gap: 30px; }
+        }
+        @media (max-width: 768px) {
+            .services-header-alt { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .services-header-alt h2 { font-size: 2rem; }
+            .service-row { flex-direction: column; padding: 30px 0; }
+            .service-content-alt { order: 2; width: 100%; }
+            .service-img-alt { order: 1; width: 100%; }
+            .service-img-alt img { height: 220px; }
+        }
+     /* ===== SPÉCIALITÉS REDESIGN ===== */
+.spec-section {
+    background: #07111c;
+    padding: 90px 5%;
+    position: relative;
+    overflow: hidden;
+}
+.spec-section::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: rgba(19,181,234,0.04);
+    pointer-events: none;
+}
+.spec-section::after {
+    content: '';
+    position: absolute;
+    bottom: -150px; left: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(11,76,134,0.06);
+    pointer-events: none;
+}
+.spec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 1;
+}
+.spec-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #13b5ea;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.spec-eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1.5px;
+    background: #13b5ea;
+}
+.spec-header h2 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+.spec-header h2 span { color: #13b5ea; }
+.spec-header-right { text-align: right; }
+.spec-header-right p {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    max-width: 280px;
+}
+.spec-see-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #13b5ea;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 14px;
+    text-decoration: none;
+    transition: gap 0.2s;
+}
+.spec-see-all:hover { gap: 14px; }
+
+.spec-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    z-index: 1;
+}
+.spec-card {
+    background: #07111c;
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    cursor: pointer;
+    transition: background 0.35s ease;
+    position: relative;
+    overflow: hidden;
+}
+.spec-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 3px;
+    background: #13b5ea;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+}
+.spec-card:hover { background: #0d1e3a; }
+.spec-card:hover::before { transform: scaleX(1); }
+
+.spec-card-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.18);
+    letter-spacing: 2px;
+}
+.spec-card-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: rgba(19,181,234,0.1);
+    border: 1px solid rgba(19,181,234,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    color: #13b5ea;
+    transition: background 0.3s, border-color 0.3s;
+}
+.spec-card:hover .spec-card-icon {
+    background: rgba(19,181,234,0.18);
+    border-color: rgba(19,181,234,0.4);
+}
+.spec-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+}
+.spec-card p {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.42);
+    line-height: 1.65;
+    flex: 1;
+}
+.spec-card-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(19,181,234,0.5);
+    transition: color 0.3s, gap 0.2s;
+}
+.spec-card:hover .spec-card-arrow { color: #13b5ea; gap: 10px; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .spec-grid { grid-template-columns: repeat(2, 1fr); }
+    .spec-header { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .spec-header-right { text-align: left; }
+    .spec-header-right p { max-width: 100%; }
+}
+@media (max-width: 600px) {
+    .spec-grid { grid-template-columns: 1fr; }
+    .spec-header h2 { font-size: 1.9rem; }
+}
+        /* =============================================
+           PROCESSUS — comment ça marche
+        ============================================= */
+        .process-section {
+            padding: 90px 5%;
+            background: var(--white);
+        }
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+            margin-top: 0;
+        }
+        /* Ligne de connexion */
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 38px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--light-blue), var(--primary-blue));
+            opacity: 0.2;
+            z-index: 0;
+        }
+        .process-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .step-number {
+            width: 76px; height: 76px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2px solid rgba(19,181,234,0.25);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem;
+            color: var(--light-blue);
+            margin-bottom: 22px;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(19,181,234,0.12);
+        }
+        .step-number::before {
+            content: attr(data-num);
+            position: absolute;
+            top: -8px; right: -8px;
+            width: 24px; height: 24px;
+            background: var(--grad);
+            border-radius: 50%;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: white;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .process-step h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+        .process-step p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* =============================================
+           CTA BANNER — style Medenic
+        ============================================= */
+        .cta-section {
+            padding: 0px 0%;
+            background: var(--white);
+        }
+        .cta-banner {
+            background: var(--grad);
+          
+            padding: 70px 350px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+        }
+        .cta-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -60px; left: 30%;
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+        .cta-content { position: relative; z-index: 1; }
+        .cta-content .cta-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+        .cta-content h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.2;
+            margin-bottom: 14px;
+            max-width: 500px;
+        }
+        .cta-content p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            line-height: 1.65;
+            max-width: 440px;
+        }
+        .cta-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+        .cta-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255,255,255,0.25);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+        .cta-actions .btn-white {
+            font-size: 0.95rem;
+            padding: 14px 32px;
+        }
+        .cta-phone {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cta-phone strong { color: white; }
+
+       
+
+        /* =============================================
+           FOOTER
+        ============================================= */
+        footer { background:#07111c; color:rgba(255,255,255,.7); padding:4rem 5%; }
+        .footer-grid { display:grid; grid-template-columns:1.5fr repeat(3,1fr); gap:3rem; margin-bottom:3rem; }
+        .footer-brand .nav-logo { margin-bottom:1rem; display:flex; align-items:center; gap:10px; }
+        .footer-brand p { font-size:.88rem; line-height:1.7; color:rgba(255,255,255,.5); max-width:260px; }
+        .footer-social { display:flex; gap:.7rem; margin-top:1.5rem; }
+        .social-btn { width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; font-size:.9rem; cursor:pointer; transition:all .25s; }
+        .social-btn:hover { background:var(--grad); border-color:transparent; color:#fff; transform:translateY(-2px); }
+        .footer-col h4 { font-size:.95rem; font-weight:700; color:var(--white); margin-bottom:1.2rem; }
+        .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:.65rem; }
+        .footer-col ul li a { font-size:.86rem; color:rgba(255,255,255,.5); transition:color .2s; }
+        .footer-col ul li a:hover { color:var(--light-blue); }
+        .footer-divider { border:none; border-top:1px solid rgba(255,255,255,.07); margin-bottom:1.5rem; }
+        .footer-bottom { display:flex; justify-content:space-between; align-items:center; font-size:.82rem; flex-wrap:wrap; gap:1rem; }
+
+        /* =============================================
+           OVERLAY
+        ============================================= */
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(2px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+        .nav-overlay.active { display: block; opacity: 1; }
+
+        /* =============================================
+           RESPONSIVE
+        ============================================= */
+        @media (max-width: 1024px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .specialties-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-steps { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+            .process-steps::before { display: none; }
+            .stats-bar-inner { grid-template-columns: repeat(2, 1fr); }
+            .stat-item:nth-child(2) { border-right: none; }
+            .faq-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .cta-banner { flex-direction: column; text-align: center; padding: 50px 32px; }
+            .cta-content p { max-width: 100%; }
+            .cta-content h2 { max-width: 100%; }
+            .page-hero h1 { font-size: 2.4rem; }
+        }
+
+        @media (max-width: 768px) {
+            
+            .page-hero { padding: 50px 5% 60px; }
+            .page-hero h1 { font-size: 2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .specialties-grid { grid-template-columns: 1fr 1fr; }
+            .process-steps { grid-template-columns: 1fr; gap: 30px; }
+            .stats-bar-inner { grid-template-columns: repeat(2, 1fr); }
+            .section-header h2 { font-size: 1.8rem; }
+            .cta-banner { padding: 40px 24px; }
+            .cta-banner h2 { font-size: 1.6rem; }
+        }
+
+        @media (max-width: 480px) {
+            .specialties-grid { grid-template-columns: 1fr; }
+            .stats-bar-inner { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="nav-overlay" id="navOverlay"></div>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <span><i class="fas fa-phone-alt"></i> (555) 123-4567</span>
+            <span><i class="far fa-clock"></i> Lun-Ven: 8:00 - 18:00</span>
+        </div>
+        <div class="top-bar-right">
+            <span><i class="fas fa-exclamation-triangle"></i> Urgence: (555) 911-0000</span>
+        </div>
+    </div>
+
+   <header class="navbar">
+        <div class="logo">
+            <img src="image/logof.png" alt="EasyDoc Logo">
+        </div>
+        
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Accueil</a>
+            <a href="service.html"  class="active">Services</a>
+            <a href="#">Médecins</a>
+        
+            <a href="#">Contact</a>
+        </nav>
+        
+        <div class="nav-actions">
+            <a href="#" class="btn btn-primary">Prendre Rendez-vous</a>
+            
+            <a href="#" class="icon-btn profile-icon" title="Mon Profil"><i class="far fa-user-circle"></i></a>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+<section class="page-hero">
+    <div class="page-hero-inner">
+        <span class="hero-tag">La Santée Pour Tous.</span>
+        
+        <h1>
+            <span class="highlight">Nos Services</span>
+           
+        </h1>
+        
+        <p>Explorez notre large gamme de services médicaux, conçus pour répondre à tous vos besoins de santé avec excellence et compassion.
+</p>
+        
+        <div class="hero-buttons">
+            <a href="#" class="hero-btn btn-red">DECOUVRIR PLUS</a>
+            <a href="#" class="hero-btn btn-outline">CONTACTER</a>
+        </div>
+    </div>
+</section>
+
+<section class="stats-bar">
+    <div class="stats-bar-inner">
+        <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-user-md"></i></div>
+            <div class="stat-info">
+                <strong>50+</strong>
+                <span>Médecins Certifiés</span>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-heartbeat"></i></div>
+            <div class="stat-info">
+                <strong>15+</strong>
+                <span>Spécialités Médicales</span>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-hospital"></i></div>
+            <div class="stat-info">
+                <strong>8</strong>
+                <span>Cliniques au Maroc</span>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-star"></i></div>
+            <div class="stat-info">
+                <strong>4.9/5</strong>
+                <span>Satisfaction Patients</span>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="services-section">
+    <div class="services-header-alt">
+        <h2>Tous Nos Services de Santé</h2>
+  
+    </div>
+
+    <div class="services-list-alt">
+
+        <div class="service-row">
+            <div class="service-content-alt">
+                <div class="service-icon-alt"><i class="fas fa-stethoscope"></i></div>
+                <h3>Médecine Générale</h3>
+                <p>Consultations complètes, suivi de santé, bilans préventifs et prise en charge des maladies courantes pour toute la famille.</p>
+                <a href="services/generaliste.html" class="btn-service">Voir plus <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-img-alt">
+                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?auto=format&fit=crop&w=1200&q=80" alt="Médecine Générale">
+            </div>
+        </div>
+
+        <div class="service-row">
+            <div class="service-content-alt">
+                <div class="service-icon-alt"><i class="fas fa-heartbeat"></i></div>
+                <h3>Cardiologie</h3>
+                <p>Diagnostic et traitement des maladies cardiovasculaires avec des équipements de pointe : ECG, échocardiographie, holter.</p>
+                <a href="services/cardiologue.html" class="btn-service">Voir plus <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-img-alt">
+                <img src="https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?auto=format&fit=crop&w=1200&q=80" alt="Cardiologie">
+            </div>
+        </div>
+
+        <div class="service-row">
+            <div class="service-content-alt">
+                <div class="service-icon-alt"><i class="fas fa-ambulance"></i></div>
+                <h3>Soins d'Urgence</h3>
+                <p>Une équipe médicale disponible 24h/24 et 7j/7 pour toutes les urgences, avec une réponse rapide et professionnelle.</p>
+                <a href="services/urgence.html" class="btn-service">Voir plus <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-img-alt">
+                <img src="https://images.unsplash.com/photo-1666214280391-8ff5bd3c0bf0?auto=format&fit=crop&w=1200&q=80" alt="Urgences">
+            </div>
+        </div>
+
+        <div class="service-row">
+            <div class="service-content-alt">
+                <div class="service-icon-alt"><i class="fas fa-baby"></i></div>
+                <h3>Pédiatrie</h3>
+                <p>Soins médicaux spécialisés pour enfants et nourrissons : vaccinations, suivi de croissance, maladies infantiles.</p>
+                <a href="services/pediatrie.html" class="btn-service">Voir plus <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-img-alt">
+                <img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=1200&q=80" alt="Pédiatrie">
+            </div>
+        </div>
+
+        <div class="service-row">
+            <div class="service-content-alt">
+                <div class="service-icon-alt"><i class="fas fa-microscope"></i></div>
+                <h3>Diagnostics & Labo</h3>
+                <p>Analyses biologiques, imagerie médicale (échographie, radio), bilans sanguins et tests spécialisés en un seul lieu.</p>
+                <a href="services/diagnostic.html" class="btn-service">Voir plus <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-img-alt">
+                <img src="https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?auto=format&fit=crop&w=1200&q=80" alt="Diagnostics">
+            </div>
+        </div>
+
+        <div class="service-row">
+            <div class="service-content-alt">
+                <div class="service-icon-alt"><i class="fas fa-procedures"></i></div>
+                <h3>Services Chirurgicaux</h3>
+                <p>Bloc opératoire équipé aux normes internationales, chirurgie générale et spécialisée avec suivi post-opératoire complet.</p>
+                <a href="services/chirurgie.html" class="btn-service">Voir plus <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-img-alt">
+                <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=1200&q=80" alt="Chirurgie">
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ===== SPÉCIALITÉS REDESIGN ===== -->
+<section class="spec-section">
+  <div class="spec-header">
+    <div class="spec-header-left">
+      <div class="spec-eyebrow">Nos Spécialités</div>
+      <h2>Une couverture médicale<br><span>complète &amp; experte</span></h2>
+    </div>
+    <div class="spec-header-right">
+      <p>Chaque spécialité est assurée par des médecins certifiés, avec des équipements à la pointe de la technologie médicale.</p>
+      <a href="#" class="spec-see-all">Voir toutes les spécialités <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <div class="spec-grid">
+    <div class="spec-card">
+      <div class="spec-card-num">01</div>
+      <div class="spec-card-icon"><i class="fas fa-brain"></i></div>
+      <h4>Neurologie</h4>
+      <p>Diagnostic et traitement des maladies du système nerveux central et périphérique.</p>
+      <span class="spec-card-arrow">Découvrir <i class="fas fa-arrow-right"></i></span>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-num">02</div>
+      <div class="spec-card-icon"><i class="fas fa-bone"></i></div>
+      <h4>Orthopédie</h4>
+      <p>Prise en charge des troubles musculo-squelettiques, fractures et maladies articulaires.</p>
+      <span class="spec-card-arrow">Découvrir <i class="fas fa-arrow-right"></i></span>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-num">03</div>
+      <div class="spec-card-icon"><i class="fas fa-eye"></i></div>
+      <h4>Ophtalmologie</h4>
+      <p>Examens de vue, traitement des maladies oculaires et chirurgie réfractive.</p>
+      <span class="spec-card-arrow">Découvrir <i class="fas fa-arrow-right"></i></span>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-num">04</div>
+      <div class="spec-card-icon"><i class="fas fa-lungs"></i></div>
+      <h4>Pneumologie</h4>
+      <p>Diagnostic et traitement des maladies respiratoires, asthme, BPCO, pneumonie.</p>
+      <span class="spec-card-arrow">Découvrir <i class="fas fa-arrow-right"></i></span>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-num">05</div>
+      <div class="spec-card-icon"><i class="fas fa-venus"></i></div>
+      <h4>Gynécologie</h4>
+      <p>Suivi gynécologique, obstétrique, dépistages et accompagnement de la femme.</p>
+      <span class="spec-card-arrow">Découvrir <i class="fas fa-arrow-right"></i></span>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-num">06</div>
+      <div class="spec-card-icon"><i class="fas fa-tooth"></i></div>
+      <h4>Dentisterie</h4>
+      <p>Soins dentaires préventifs et curatifs, orthodontie et implantologie.</p>
+      <span class="spec-card-arrow">Découvrir <i class="fas fa-arrow-right"></i></span>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-num">07</div>
+      <div class="spec-card-icon"><i class="fas fa-microscope"></i></div>
+      <h4>Oncologie</h4>
+      <p>Accompagnement pluridisciplinaire dans le diagnostic et le traitement du cancer.</p>
+      <span class="spec-card-arrow">Découvrir <i class="fas fa-arrow-right"></i></span>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-num">08</div>
+      <div class="spec-card-icon"><i class="fas fa-pills"></i></div>
+      <h4>Endocrinologie</h4>
+      <p>Prise en charge du diabète, des maladies thyroïdiennes et hormonales.</p>
+      <span class="spec-card-arrow">Découvrir <i class="fas fa-arrow-right"></i></span>
+    </div>
+  </div>
+</section>
+<section class="process-section">
+    <div class="section-header">
+        <div class="section-tag"><i class="fas fa-route"></i> Comment ça marche</div>
+        <h2>Votre Parcours de Soin en 4 Étapes</h2>
+        <p>Un processus simple et transparent pour accéder aux meilleurs soins en toute sérénité.</p>
+    </div>
+    <div class="process-steps">
+        <div class="process-step">
+            <div class="step-number" data-num="1"><i class="fas fa-calendar-check"></i></div>
+            <h4>Prise de Rendez-vous</h4>
+            <p>Réservez en ligne ou par téléphone en quelques clics, 24h/24.</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number" data-num="2"><i class="fas fa-user-check"></i></div>
+            <h4>Consultation Médicale</h4>
+            <p>Rencontrez votre médecin dans un cadre calme et bienveillant.</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number" data-num="3"><i class="fas fa-flask"></i></div>
+            <h4>Examens & Diagnostic</h4>
+            <p>Analyses et imagerie réalisées sur place pour un diagnostic rapide.</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number" data-num="4"><i class="fas fa-notes-medical"></i></div>
+            <h4>Suivi Personnalisé</h4>
+            <p>Un plan de traitement adapté avec un suivi régulier de votre évolution.</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="cta-banner">
+        <div class="cta-content">
+           
+            <h2>Prenez Rendez-vous avec Notre Équipe Médicale</h2>
+            <p>Bénéficiez de soins personnalisés, dispensés avec compassion par nos médecins experts. Votre santé est notre priorité absolue.</p>
+        </div>
+        <div class="cta-actions">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=300&q=80" alt="Médecin EasyDoc" class="cta-img">
+            <a href="#" class="btn btn-white">
+                Prendre Rendez-vous <i class="fas fa-arrow-right"></i>
+            </a>
+            <div class="cta-phone">
+                <i class="fas fa-phone-alt"></i>
+                <span>Urgence : <strong>(555) 911-0000</strong></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <div class="nav-logo">
+                <img src="image/imagesansfondsanstexte.png" alt="EasyDoc Logo" style="height: 40px;">
+                <div>
+                    <div style="font-size:1.3rem; font-weight:700; color:#fff;">EasyDoc</div>
+                    <div style="font-size:0.8rem; color:rgba(255,255,255,.5);">Votre Santé, Simplement.</div>
+                </div>
+            </div>
+            <p>Votre partenaire de santé de confiance au Maroc. Soins médicaux experts, accessibles et humains.</p>
+            <div class="footer-social">
+                <div class="social-btn"><i class="fab fa-facebook-f"></i></div>
+                <div class="social-btn"><i class="fab fa-linkedin-in"></i></div>
+                <div class="social-btn"><i class="fab fa-twitter"></i></div>
+                <div class="social-btn"><i class="fab fa-instagram"></i></div>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+                <li><a href="#">Cardiologie</a></li>
+                <li><a href="#">Neurologie</a></li>
+                <li><a href="#">Pédiatrie</a></li>
+                <li><a href="#">Orthopédie</a></li>
+                <li><a href="#">Radiologie</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>EasyDoc</h4>
+            <ul>
+                <li><a href="#">À Propos</a></li>
+                <li><a href="#">Notre Équipe</a></li>
+                <li><a href="#">Nos Cliniques</a></li>
+                <li><a href="#">Carrières</a></li>
+                <li><a href="#">Blog Santé</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Légal</h4>
+            <ul>
+                <li><a href="#">Mentions Légales</a></li>
+                <li><a href="#">Politique de Confidentialité</a></li>
+                <li><a href="#">CGU</a></li>
+                <li><a href="#">Cookies</a></li>
+            </ul>
+        </div>
+    </div>
+    <hr class="footer-divider"/>
+    <div class="footer-bottom">
+        <span>© 2026 EasyDoc. Tous droits réservés.</span>
+        <span style="display:flex;align-items:center;gap:.4rem;">Fait avec 💙 pour votre santé au Maroc</span>
+    </div>
+</footer>
+
+<script>
+     // ===== MENU MOBILE =====
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+const navOverlay = document.getElementById('navOverlay');
+
+function openMenu() {
+    navLinks.classList.add('active');
+    navOverlay.classList.add('active');
+    const icon = menuToggle.querySelector('i');
+    icon.classList.replace('fa-bars', 'fa-times');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMenu() {
+    navLinks.classList.remove('active');
+    navOverlay.classList.remove('active');
+    const icon = menuToggle.querySelector('i');
+    icon.classList.replace('fa-times', 'fa-bars');
+    document.body.style.overflow = 'auto';
+}
+
+menuToggle.addEventListener('click', () => {
+    navLinks.classList.contains('active') ? closeMenu() : openMenu();
+});
+
+navOverlay.addEventListener('click', closeMenu);
+
+navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+});
+
+
+// ===== MENU INTELLIGENT (Apparaît au scroll vers le haut) =====
+let lastScrollTop = 0;
+const navbar = document.querySelector('.navbar');
+
+window.addEventListener('scroll', function() {
+    // Récupère la position actuelle du scroll
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Si on descend (et qu'on a dépassé le top-bar)
+    if (scrollTop > lastScrollTop && scrollTop > 50) {
+        navbar.classList.add('navbar-hidden'); // Cache le menu
+    } else {
+        // Si on monte
+        navbar.classList.remove('navbar-hidden'); // Affiche le menu
+    }
+    
+    // Met à jour la dernière position (avec une sécurité pour les rebonds sur mobile)
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+});
+    
+</script>
+</body>
+</html>
