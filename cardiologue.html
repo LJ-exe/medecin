@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardiology Services — EasyDoc</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary-blue: #0b4c86;
+            --light-blue: #13b5ea;
+            --text-dark: #1a1a1a;
+            --text-light: #636e72;
+            --bg-cream: #f2ede6;
+            --white: #ffffff;
+            --grad: linear-gradient(135deg, #13b5ea 0%, #0b4c86 100%);
+            --shadow-btn: 0 8px 20px rgba(19, 181, 234, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-cream); color: var(--text-dark); overflow-x: hidden; }
+        a { text-decoration: none; }
+
+        /* ── TOP BAR ── */
+        .top-bar {
+            background-color: var(--primary-blue);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 5%;
+            font-size: 0.85rem;
+        }
+        .top-bar span { margin-right: 20px; display: inline-flex; align-items: center; gap: 8px; }
+
+        /* --- NAVIGATION --- */
+        .navbar {
+            display: flex;
+            align-items: center;
+            padding: 25px 5%; /* <-- J'ai passé le 15px à 10px */
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out; 
+        }
+
+        /* Nouvelle classe qui sera activée par le Javascript */
+        .navbar-hidden {
+            transform: translateY(-100%); /* Remonte le menu hors de l'écran */
+        }
+
+        .logo img {
+            height: 60px; /* <-- C'est ici le grand changement ! (avant c'était 200px) */
+            width: auto; /* Garde les bonnes proportions */
+        }
+
+        .nav-links {
+            margin-left: auto; /* C'est cette ligne qui pousse le reste vers la droite ! */
+            margin-right: 30px; /* Espace entre les liens et le bouton RDV */
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--light-blue);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            color: var(--primary-blue);
+        }
+
+        .profile-icon {
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Menu Toggle caché par défaut sur PC */
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary-blue);
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+        /* --- BOUTONS --- */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--light-blue);
+            color: var(--white);
+            border: none;
+            box-shadow: var(--shadow-btn);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-danger {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: 2px solid rgba(255, 71, 87, 0.2);
+        }
+
+        .btn-outline-danger:hover {
+            border-color: var(--danger-color);
+            background-color: rgba(255, 71, 87, 0.05);
+        }
+   @media (max-width: 768px) {
+    /* --- REORGANISATION DU HEADER MOBILE --- */
+    .navbar {
+        display: flex;
+        justify-content: space-between; /* Espace entre les 3 blocs */
+        align-items: center;
+        padding: 10px 4%;
+    }
+
+    /* 1. Bloc Gauche : Le Menu Hamburger */
+    .menu-toggle {
+        display: block;
+        order: 1; /* Force la position à gauche */
+        width: 33%;
+        text-align: left;
+    }
+
+    /* 2. Bloc Centre : Le Logo */
+    .logo {
+        order: 2; /* Force la position au centre */
+        width: 33%;
+        display: flex;
+        justify-content: center;
+    }
+    .logo img {
+        height: 60px; /* On réduit un peu pour mobile */
+    }
+
+    /* 3. Bloc Droite : Le Bouton RDV */
+    .nav-actions {
+        order: 3; /* Force la position à droite */
+        width: 33%;
+        justify-content: flex-end;
+    }
+
+    /* Adaptation du bouton pour qu'il tienne sur mobile */
+    .nav-actions .btn-primary {
+        display: inline-flex; /* On le réactive */
+        padding: 8px 12px;
+        font-size: 0.75rem;
+        white-space: nowrap; /* Empêche le texte de revenir à la ligne */
+    }
+
+    /* Cacher les éléments secondaires sur mobile pour gagner de la place */
+    .icon-btn { display: none; } 
+    .top-bar { display: none; }
+
+    /* --- MENU PLEIN ÉCRAN (Navigation) --- */
+    /* --- MENU PANNEAU LATÉRAL (Navigation) --- */
+.nav-links {
+    position: fixed;
+    top: 0;
+    left: -280px;        /* Largeur fixe au lieu de 100% */
+    width: 280px;        /* Panneau de 280px seulement */
+    height: 100vh;
+    background-color: var(--white);
+    flex-direction: column;
+    justify-content: flex-start;   /* Aligner en haut */
+    align-items: flex-start;       /* Aligner à gauche */
+    padding: 100px 30px 40px;      /* Espace en haut pour le header */
+    transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+    gap: 8px;
+    box-shadow: 5px 0 30px rgba(0,0,0,0.12);
+    border-right: 1px solid #f0f0f0;
+}
+
+.nav-links.active {
+    left: 0;
+}
+
+.nav-links a {
+    font-size: 1rem;
+    font-weight: 500;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    color: var(--text-dark);
+    transition: all 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    background-color: rgba(19, 181, 234, 0.08);
+    color: var(--light-blue);
+    padding-left: 22px;
+}}
+        /* ── PAGE WRAPPER ── */
+        .page-wrapper { max-width: 900px; margin: 0 auto; padding: 60px 5% 80px; }
+
+        /* ── HERO HEADER ── */
+        .hero-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: flex-start;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+        }
+        .hero-title .deco-box {
+            display: inline-block;
+            border: 2px solid var(--text-dark);
+            padding: 0 3px;
+            line-height: 1;
+            margin-right: 1px;
+        }
+        .hero-subtitle {
+            padding-top: 8px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        /* ── HERO IMAGE ── */
+        .hero-image {
+            width: 100%;
+            max-height: 480px;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 56px;
+        }
+
+        /* ── STATS ROW ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: #d8d0c6;
+            border: 1px solid #d8d0c6;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 56px;
+        }
+        .stat-cell {
+            background: var(--bg-cream);
+            padding: 28px 24px;
+            text-align: center;
+        }
+        .stat-cell strong {
+            display: block;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .stat-cell span {
+            font-size: 0.82rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        /* ── CONTENT SECTIONS ── */
+        .content-section { margin-bottom: 48px; }
+        .content-section h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+        .content-section p {
+            font-size: 1rem;
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+        .content-section ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .content-section ul li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.97rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        .content-section ul li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--text-dark);
+            flex-shrink: 0;
+            margin-top: 8px;
+        }
+
+        /* ── PROCEDURES GRID ── */
+        .procedures-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .procedure-card {
+            background: var(--white);
+            border: 1px solid #ddd8d0;
+            border-radius: 4px;
+            padding: 22px 20px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .procedure-icon {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--grad);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .procedure-card h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+        .procedure-card p {
+            font-size: 0.83rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* ── DIVIDER ── */
+        .section-divider {
+            border: none;
+            border-top: 1px solid #d8d0c6;
+            margin: 0 0 48px;
+        }
+
+        /* ── APPOINTMENT BUTTON ── */
+        .appointment-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0;
+            margin-top: 16px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            border: 2px solid var(--text-dark);
+            cursor: pointer;
+            background: none;
+            text-decoration: none;
+        }
+        .appointment-btn .arrow-box {
+            background-color: var(--light-blue);
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            border-right: 2px solid var(--text-dark);
+        }
+        .appointment-btn .btn-text {
+            padding: 0 20px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            background-color: var(--light-blue);
+            color: #fff;
+        }
+        .appointment-btn:hover .arrow-box { background-color: var(--primary-blue); }
+        .appointment-btn:hover .btn-text { background-color: var(--primary-blue); }
+        .appointment-btn:hover { border-color: var(--primary-blue); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+           
+            .hero-header { grid-template-columns: 1fr; gap: 16px; }
+            .hero-title { font-size: 2.2rem; }
+            .hero-subtitle { max-width: 100%; padding-top: 0; }
+            .stats-row { grid-template-columns: 1fr; }
+            .procedures-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="nav-overlay" id="navOverlay"></div>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <span><i class="fas fa-phone-alt"></i> (555) 123-4567</span>
+            <span><i class="far fa-clock"></i> Lun-Ven: 8:00 - 18:00</span>
+        </div>
+        <div class="top-bar-right">
+            <span><i class="fas fa-exclamation-triangle"></i> Urgence: (555) 911-0000</span>
+        </div>
+    </div>
+
+   <header class="navbar">
+        <div class="logo">
+            <img src="/image/logof.png" alt="EasyDoc Logo">
+        </div>
+        
+        <nav class="nav-links" id="navLinks">
+            <a href="/index.html">Accueil</a>
+            <a href="/service.html"  class="active">Services</a>
+            <a href="#">Médecins</a>
+        
+            <a href="#">Contact</a>
+        </nav>
+        
+        <div class="nav-actions">
+            <a href="#" class="btn btn-primary">Prendre Rendez-vous</a>
+            
+            <a href="#" class="icon-btn profile-icon" title="Mon Profil"><i class="far fa-user-circle"></i></a>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+
+<!-- PAGE CONTENT -->
+<div class="page-wrapper">
+
+    <!-- HERO HEADER -->
+    <div class="hero-header">
+        <h1 class="hero-title">
+            <span class="deco-box">CA</span>RDIOLOGY<br>SERVICES
+        </h1>
+        <p class="hero-subtitle">
+            Comprehensive heart care delivered by<br>
+            expert cardiologists using the latest<br>
+            diagnostic technology.
+        </p>
+    </div>
+
+    <!-- HERO IMAGE -->
+    <img
+        src="https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?auto=format&fit=crop&w=1200&q=80"
+        alt="Cardiology Services"
+        class="hero-image"
+    >
+ 
+
+    <!-- ABOUT CARDIOLOGY -->
+    <div class="content-section">
+        <h2>Expert Heart Care</h2>
+        <p>Our Cardiology Department offers world-class diagnosis, treatment, and prevention of cardiovascular diseases. Equipped with state-of-the-art technology and staffed by board-certified cardiologists, we provide personalised care tailored to each patient's unique condition. Whether you need a routine heart check-up or advanced interventional procedures, our team is here for you every step of the way.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- CONDITIONS WE TREAT -->
+    <div class="content-section">
+        <h2>Conditions We Treat</h2>
+        <p>Our cardiologists are trained to diagnose and manage a wide spectrum of heart and vascular conditions, including:</p>
+        <ul>
+            <li>Coronary artery disease and angina</li>
+            <li>Heart failure and cardiomyopathy</li>
+            <li>Arrhythmias and atrial fibrillation</li>
+            <li>Hypertension (high blood pressure)</li>
+            <li>Valvular heart disease</li>
+            <li>Congenital heart defects</li>
+            <li>Peripheral arterial disease</li>
+            <li>Post-cardiac event rehabilitation</li>
+        </ul>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- DIAGNOSTIC PROCEDURES -->
+    <div class="content-section">
+        <h2>Diagnostic Procedures</h2>
+        <p>We use the latest non-invasive and minimally invasive tools to deliver fast, accurate diagnoses:</p>
+        <div class="procedures-grid">
+            <div class="procedure-card">
+                <div class="procedure-icon"><i class="fas fa-heartbeat"></i></div>
+                <div>
+                    <h4>Electrocardiogram (ECG)</h4>
+                    <p>Records the electrical activity of the heart to detect arrhythmias and ischemia.</p>
+                </div>
+            </div>
+            <div class="procedure-card">
+                <div class="procedure-icon"><i class="fas fa-wave-square"></i></div>
+                <div>
+                    <h4>Echocardiography</h4>
+                    <p>Ultrasound imaging of heart structure and function, including valves and chambers.</p>
+                </div>
+            </div>
+            <div class="procedure-card">
+                <div class="procedure-icon"><i class="fas fa-clock"></i></div>
+                <div>
+                    <h4>Holter Monitor</h4>
+                    <p>24–48 hour continuous ECG recording to capture intermittent rhythm abnormalities.</p>
+                </div>
+            </div>
+            <div class="procedure-card">
+                <div class="procedure-icon"><i class="fas fa-running"></i></div>
+                <div>
+                    <h4>Stress Test (ETT)</h4>
+                    <p>Evaluates heart performance under physical exertion to detect coronary artery disease.</p>
+                </div>
+            </div>
+            <div class="procedure-card">
+                <div class="procedure-icon"><i class="fas fa-microscope"></i></div>
+                <div>
+                    <h4>Coronary Angiography</h4>
+                    <p>X-ray imaging of coronary arteries using contrast dye to identify blockages.</p>
+                </div>
+            </div>
+            <div class="procedure-card">
+                <div class="procedure-icon"><i class="fas fa-tint"></i></div>
+                <div>
+                    <h4>Cardiac Blood Tests</h4>
+                    <p>Troponin, BNP, lipid panels and other biomarkers for risk assessment and diagnosis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- WHY CHOOSE US -->
+    <div class="content-section">
+        <h2>Why Choose Our Cardiology Unit</h2>
+        <ul>
+            <li><strong>Board-Certified Specialists:</strong> All cardiologists hold international certifications and years of clinical experience.</li>
+            <li><strong>Advanced Cardiac Imaging:</strong> On-site 3D echocardiography, CT angiography and MRI cardiac suite.</li>
+            <li><strong>Multidisciplinary Team:</strong> Cardiologists collaborate with cardiac surgeons, dietitians and physiotherapists.</li>
+            <li><strong>Minimally Invasive Procedures:</strong> Catheter-based interventions with shorter recovery times.</li>
+            <li><strong>Cardiac Rehabilitation:</strong> Structured post-procedure programs to restore heart health and fitness.</li>
+            <li><strong>24/7 Cardiac Emergency Unit:</strong> Dedicated team on call around the clock for acute cardiac events.</li>
+            <li><strong>Preventive Cardiology:</strong> Lifestyle counselling and early screening programs for at-risk patients.</li>
+        </ul>
+    </div>
+
+    <!-- APPOINTMENT BUTTON -->
+    <a href="#" class="appointment-btn">
+        <span class="arrow-box"><i class="fas fa-chevron-right"></i></span>
+        <span class="btn-text">MAKE AN APPOINTMENT</span>
+    </a>
+
+</div>
+
+<script>
+         // ===== MENU MOBILE =====
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+const navOverlay = document.getElementById('navOverlay');
+
+function openMenu() {
+    navLinks.classList.add('active');
+    navOverlay.classList.add('active');
+    const icon = menuToggle.querySelector('i');
+    icon.classList.replace('fa-bars', 'fa-times');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMenu() {
+    navLinks.classList.remove('active');
+    navOverlay.classList.remove('active');
+    const icon = menuToggle.querySelector('i');
+    icon.classList.replace('fa-times', 'fa-bars');
+    document.body.style.overflow = 'auto';
+}
+
+menuToggle.addEventListener('click', () => {
+    navLinks.classList.contains('active') ? closeMenu() : openMenu();
+});
+
+navOverlay.addEventListener('click', closeMenu);
+
+navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+});
+
+
+// ===== MENU INTELLIGENT (Apparaît au scroll vers le haut) =====
+let lastScrollTop = 0;
+const navbar = document.querySelector('.navbar');
+
+window.addEventListener('scroll', function() {
+    // Récupère la position actuelle du scroll
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Si on descend (et qu'on a dépassé le top-bar)
+    if (scrollTop > lastScrollTop && scrollTop > 50) {
+        navbar.classList.add('navbar-hidden'); // Cache le menu
+    } else {
+        // Si on monte
+        navbar.classList.remove('navbar-hidden'); // Affiche le menu
+    }
+    
+    // Met à jour la dernière position (avec une sécurité pour les rebonds sur mobile)
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+});
+</script>
+</body>
+</html>
