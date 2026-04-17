@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"c:/Users/laraq/Desktop/RDV Medecin\" status)",
+      "Bash(git -C \"c:/Users/laraq/Desktop/RDV Medecin\" add siteweb/Client/Services/gynecologie.html siteweb/Client/Services/dentisterie.html siteweb/Client/Services/oncologie.html siteweb/Client/Services/endocrinologie.html)",
+      "Bash(git -C \"c:/Users/laraq/Desktop/RDV Medecin\" status --short)"
+    ]
+  }
+}
